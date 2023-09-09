@@ -3,11 +3,12 @@ use std::collections::HashMap;
 // key d with empty string, e has value ==, and d again have two more
 // values. means for key d, we would have an array of values
 // a=1&b=2&c&d=&e===&d=7&d=abc
+#[derive(Debug)]
 pub struct QueryString<'buf>{
     // data: HashMap<&'buf str , &'buf str>,
     data: HashMap<&'buf str, Value<'buf>>,
 }
-
+#[derive(Debug)]
 pub enum Value<'buf>{
     Single(&'buf str),
     // Vector is a heap allocated dynamic array

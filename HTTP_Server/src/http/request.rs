@@ -7,7 +7,9 @@ use std::str::Utf8Error;
 use std::str::from_utf8;
 use super::QueryString;
 
+
 // Defining lifetime here
+#[derive(Debug)]
 pub struct Request<'buf>{
     path: &'buf str, 
     //Before using query string module, was using this line

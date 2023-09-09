@@ -36,20 +36,22 @@ loop{
         // Ok wraps two values as tuple
         // use _ instead of the values if we don't want to use them , 
         // or use _ for each of the values we don't want 
-        Ok(_) => println!("dont want to use the value"),
+        Ok(_) => println!("don't want to use the value"),
         Ok((stream, _)) => println!("just use the stream not the address"),       
         Ok((stream , addr)) => {
             println!("OK");
+            // for using stream.read(), we should include read cause it is implemented separately
+            // stream should become mutable and we should pass buffer
         }
         // It should be , instead of ; if we use one line 
         Err(e) => println!("We have an error: {}",e),
         // for catching all the variants that we have not matched manually 
-        - =>
+        _ => {},
 
     }
 
     // Match is not only for enums, it can be used as switch case
-    let mystr = "Abcd"
+    let mystr = "Abcd";
     match mystr {
         "Abcd" => println!("Matched!"),
         "a" | "b"=> println!("case a or b"),
@@ -62,4 +64,28 @@ loop{
         continue;
     }
     let (stream, addr) = res.unwrap();
+}
+
+// We should define the size of array (5 here) otherwise it does not work
+fn arr(a: [u8; 5]) {}
+// The other solution is passing by reference,the compiler knows how big pointers are  
+// It is lik string slice 
+fn arr(a: &[u8]) {}
+let x = [1,2,3,4,5,6,7];
+arr(&x[2..4]);
+// create array with same value for each element
+let y = [0;1024];
+
+loop{
+    match listener.accept(){
+
+        Ok((mut stream , _)) => {
+            println!("OK");
+            let mut buffer = [0;1024];
+            stream.read(&mut buffer);
+        }
+        // It should be , instead of ; if we use one line 
+        Err(e) => println!("We have an error: {}",e),
+
+    }
 }

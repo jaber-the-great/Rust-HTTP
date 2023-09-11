@@ -8,7 +8,10 @@ use std::str::from_utf8;
 use super::QueryString;
 
 
-// Defining lifetime here
+// Defining lifetime here with 'buf
+// We need to use this derive to be able to use debugging tool
+// the term "derive" refers to a mechanism that allows you to automatically
+// generate implementations of certain traits for custom data types
 #[derive(Debug)]
 pub struct Request<'buf>{
     path: &'buf str, 
@@ -18,6 +21,21 @@ pub struct Request<'buf>{
     method: Methods,
 }
 
+// Writing getter. The convention is to name the getter after the field without prefixing 
+// it with the get word
+impl<'buf> Request <'buf>{
+    pub fn path(&self) -> &str{
+        &self.path
+
+    }
+    pub fn method(&self) -> &Methods{
+        &self.method
+    }
+    pub fn query_string(&self) -> Option<&QueryString>{
+        // as_ref converts from &Option(T) to Option(&T)
+        self.query_string.as_ref()
+    }
+}
 // Declaring the lifetime
 impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
     type Error = ParseError;
